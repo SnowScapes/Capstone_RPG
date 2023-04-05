@@ -1,8 +1,8 @@
-#캡스톤 RPG 프로젝트
+# 캡스톤 RPG 프로젝트
 
 ---    
 
-2023/04/04.   
+### 2023/04/04.   
 
 * PlayerController.cs 플레이어의 움직임 기능 스크립트
 * Player.cs 플레이어의 정보 처리 스크립트
@@ -15,5 +15,5 @@
 
 ### 사용 Asset 정보.   
 
-1 2D Forest Sprite Pack
-2 2D pixel Big Sword Hero
+1. [2D Forest Sprite Pack](https://assetstore.unity.com/packages/2d/environments/2d-forest-sprite-pack-216237)
+2. [2D pixel Big Sword Hero](https://assetstore.unity.com/packages/2d/characters/2d-pixel-big-sword-hero-3-221333)

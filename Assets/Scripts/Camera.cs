@@ -17,6 +17,6 @@ public class Camera : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        trans.position = new Vector3(p_Trans.position.x, p_Trans.position.y+3, p_Trans.position.z-1);
+        trans.position = new Vector3(p_Trans.position.x, p_Trans.position.y+3, 0);
     }
 }

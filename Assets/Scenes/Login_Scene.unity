@@ -1581,7 +1581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Chctname_Popup: {fileID: 580356571}
-  Input_Nick: {fileID: 0}
+  Input_Nick: {fileID: 968056656}
   Button_Check: {fileID: 1054366809}
   UserInfo: {fileID: 968056655}
 --- !u!1 &686614175

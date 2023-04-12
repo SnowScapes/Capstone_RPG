@@ -15,6 +15,7 @@ public class LOGIN_Script : MonoBehaviour
     public GameObject LoginInfo;
     public GameObject Login_Popup;
     public GameObject Register_Popup;
+    public GameObject CHCTReg_Popup;
 
     public TMP_InputField Input_ID;
     public TMP_InputField Input_PW;
@@ -76,7 +77,9 @@ public class LOGIN_Script : MonoBehaviour
                     Debug.Log("로그인 성공");
                     LoginInfo.GetComponent<UserInfo>().MEMB_CODE = table[0].ToString();
                     LoginInfo.GetComponent<UserInfo>().MEMB_NAME = table[1].ToString();
-                    StartCoroutine(LoadMyAsyncScene());
+                    CHCTReg_Popup.SetActive(true);
+                    Login_Popup.SetActive(false);
+                    //StartCoroutine(LoadMyAsyncScene());
                 }
                 else
                 {
@@ -107,7 +110,7 @@ public class LOGIN_Script : MonoBehaviour
 
     IEnumerator LoadMyAsyncScene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("New Scene");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("In_Dungeon");
 
         while (!asyncLoad.isDone)
         {

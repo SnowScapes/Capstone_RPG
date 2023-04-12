@@ -26,7 +26,7 @@ public class LOGIN_Script : MonoBehaviour
     static string MEMB_NAME;
     static string MEMB_P_NO;
 
-    string connStr = string.Format("Server={0};Port=3306;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "game", "root", "root");
+    string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "Select_MEMB", "12#4@");
 
     void Awake()
     {
@@ -59,8 +59,15 @@ public class LOGIN_Script : MonoBehaviour
                 conn.Open();
                 Debug.Log("Connected to MySQL.\r\n");
 
-                sql = string.Format("select * from memb where MEMB_ID = \"{0}\" AND MEMB_PW = \"{1}\"", Input_ID.text, Input_PW.text);
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlCommand SelectCommand = new MySqlCommand();
+                SelectCommand.Connection = conn;
+                SelectCommand.CommandText = "select * from memb where memb_id = @memb_id and memb_pw = sha2(@memb_pw, 256) ";
+
+                MySqlCommand cmd = new MySqlCommand(SelectCommand.CommandText, conn);
+                cmd.Parameters.Add("@memb_id", MySqlDbType.VarChar, 20);
+                cmd.Parameters[0].Value = Input_ID.text;
+                cmd.Parameters.Add("@memb_pw", MySqlDbType.VarChar, 255);
+                cmd.Parameters[1].Value = Input_PW.text;
                 MySqlDataReader table = cmd.ExecuteReader();
 
                 if(table.Read())

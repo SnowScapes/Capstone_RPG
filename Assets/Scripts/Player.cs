@@ -7,8 +7,10 @@ public class Player : MonoBehaviour
 {
     PlayerController Controller;
     //PlayerDB P_Info;
-    public int PlayerHP;
-    public int PlayerMP;
+    public int PlayerMaxHP;
+    public int PlayerMaxMP;
+    public int PlayerCurHP;
+    public int PlayerCurMP;
     public int PlayerATK;
     public int PlayerDEF;
     // Start is called before the first frame update
@@ -38,7 +40,7 @@ public class Player : MonoBehaviour
 
     void die()
     {
-        if (PlayerHP <= 0)
+        if (PlayerCurHP <= 0)
         {
             Controller.P_animation.SetTrigger("die");
         }

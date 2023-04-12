@@ -13,6 +13,8 @@ public class Register_Script : MonoBehaviour
 
     public TMP_InputField Input_ID;
     public TMP_InputField Input_PW;
+    public TMP_InputField Input_NAME;
+    public TMP_InputField Input_PNO;
     public Button Button_Register;
 
     int MEMB_CODE;
@@ -31,7 +33,7 @@ public class Register_Script : MonoBehaviour
         else
         {
             string connStr = "";
-            connStr = string.Format("Server={0};Port=3306;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "game", "root", "root");
+            connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "Select_MEMB", "12#4@");
             MySqlConnection conn = new MySqlConnection(connStr);
 
             try
@@ -39,9 +41,15 @@ public class Register_Script : MonoBehaviour
                 Debug.Log("Connecting to MySQL...");
                 conn.Open();
                 Debug.Log("Connected to MySQL.\r\n");
-                string sql = string.Format("SELECT * from memb where MEMB_ID = \"{0}\"", Input_ID.text);
+                
+                MySqlCommand SelectCommand = new MySqlCommand();
+                SelectCommand.Connection = conn;
+                SelectCommand.CommandText = "select * from memb where memb_id = @memb_id";
 
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlCommand cmd = new MySqlCommand(SelectCommand.CommandText, conn);
+                cmd.Parameters.Add("@memb_id", MySqlDbType.VarChar, 20);
+                cmd.Parameters[0].Value = Input_ID.text;
+
                 MySqlDataReader table = cmd.ExecuteReader();
                 if (table.Read())
                 {
@@ -49,22 +57,33 @@ public class Register_Script : MonoBehaviour
                 }
                 else
                 {
-                    table.Close();
-                    sql = "select MAX(memb_code) from memb";
-                    cmd = new MySqlCommand(sql, conn);
-                    table = cmd.ExecuteReader();
-                    if (table.Read())
-                        MEMB_CODE = table.IsDBNull(0) ? 0 : table.GetInt32(0)+1;
-                    table.Close();
-                    
-                    sql = string.Format("insert into memb(memb_code,memb_id,memb_pw) values('{0}','{1}','{2}')", MEMB_CODE, Input_ID.text, Input_PW.text);
-                    cmd = new MySqlCommand(sql, conn);
-                    cmd.ExecuteNonQuery();
-                    table.Close();
-                    conn.Close();
-                    Debug.Log("회원가입 성공");
-                    Login_Popup.SetActive(true);
-                    Register_Popup.SetActive(false);
+                    connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "Insert_MEMB", "12#4@");            
+                    using (MySqlConnection myConnection =new MySqlConnection(connStr)) {
+
+                        myConnection.Open();
+
+                        MySqlCommand insertCommand = new MySqlCommand();
+                        insertCommand.Connection = myConnection;
+
+                        insertCommand.CommandText = "INSERT INTO memb(memb_id, memb_pw, memb_name, memb_p_no) VALUES(@memb_id, @memb_pw, @memb_name, @memb_p_no) ";
+
+                        insertCommand.Parameters.Add("@memb_id", MySqlDbType.VarChar, 20);
+                        insertCommand.Parameters["@memb_id"].Value = Input_ID.text;
+                        insertCommand.Parameters.Add("@memb_pw", MySqlDbType.VarChar, 255);
+                        insertCommand.Parameters["@memb_pw"].Value = Input_PW.text;
+                        insertCommand.Parameters.Add("@memb_name", MySqlDbType.VarChar, 10);
+                        insertCommand.Parameters["@memb_name"].Value = Input_NAME.text;
+                        insertCommand.Parameters.Add("@memb_p_no", MySqlDbType.String, 13);
+                        insertCommand.Parameters["@memb_p_no"].Value = Input_PNO.text;
+
+                        insertCommand.ExecuteNonQuery();
+                    }
+
+                table.Close();
+                conn.Close();
+                Debug.Log("회원가입 성공");
+                Login_Popup.SetActive(true);
+                Register_Popup.SetActive(false);
                 }
                 table.Close();
                 conn.Close();

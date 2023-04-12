@@ -8,22 +8,21 @@ public class PlayerDB : MonoBehaviour
 {
     //static MySqlConnection conn;
 
+    Player p_info;
+    public GameObject UserInfo;
+
     static string DB_ipAddress = "127.0.0.1";
-    static string DB_ID = "Userid";
-    static string DB_PW = "Userpw";
-    static string DB_Name = "DB_Name";
-
-
-    public static string[] CHCT_Data = new string[9];
+    static string DB_ID;
+    static string DB_PW;
+    static string DB_Name;
     
-    public string[] Datas;
+    string[] Datas;
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        UserInfo = GameObject.Find("UserInfo");
+        p_info = GetComponent<Player>();
+        GetData(UserInfo.GetComponent<UserInfo>().MEMB_CODE);
     }
 
     void GetData(string memb_code)
@@ -52,17 +51,17 @@ public class PlayerDB : MonoBehaviour
             //ArrayList 사용시 속도 저하로 인해 Array 사용
             //데이터 사용 시 형 변환 필요
             if (table.Read()) {
-                CHCT_Data[0] = (table[0].ToString()); //CHCT_CODE
-                CHCT_Data[1] = (table[1].ToString()); //CHCT_NAME
-                CHCT_Data[2] = (table[2].ToString()); //CHCT_LV
-                CHCT_Data[3] = (table[3].ToString()); //CHCT_EXP
-                CHCT_Data[4] = (table[4].ToString()); //CHCT_HP
-                CHCT_Data[5] = (table[5].ToString()); //CHCT_MP
-                CHCT_Data[6] = (table[6].ToString()); //CHCT_ATK
-                CHCT_Data[7] = (table[7].ToString()); //CHCT_DEF
-                CHCT_Data[8] = (table[8].ToString()); //MEMB_CHCT_CODE
+                //CHCT_Data[0] = (table[0].ToString()); //CHCT_CODE
+                p_info.PlayerName = table[1].ToString(); //CHCT_NAME
+                p_info.PlayerLevel = int.Parse(table[2].ToString()); //CHCT_LV
+                p_info.PlayerExp = float.Parse(table[3].ToString()); //CHCT_EXP
+                p_info.PlayerMaxHP = int.Parse(table[4].ToString()); //CHCT_HP
+                p_info.PlayerMaxMP = int.Parse(table[5].ToString()); //CHCT_MP
+                p_info.PlayerATK = int.Parse(table[6].ToString()); //CHCT_ATK
+                p_info.PlayerDEF = int.Parse(table[7].ToString()); //CHCT_DEF
+                //CHCT_Data[8] = (table[8].ToString()); //MEMB_CHCT_CODE
             }
-
+            
             table.Close();
             conn.Close();
         } catch (Exception e) {

@@ -12,6 +12,7 @@ public class LOGIN_Script : MonoBehaviour
     static MySqlConnection conn;
     static string sql;
 
+    public GameObject LoginInfo;
     public GameObject Login_Popup;
     public GameObject Register_Popup;
 
@@ -49,7 +50,7 @@ public class LOGIN_Script : MonoBehaviour
     {
         if(Input_ID.text == "" || Input_PW.text == "")
         {
-            Debug.Log("ID 또는 PW 칸은 빈칸이 될 수 없습니다.");
+            Debug.Log("ID 또는 PW 칸은 빈칸이 될 수 없습니다");
         }
         else
         {
@@ -73,6 +74,8 @@ public class LOGIN_Script : MonoBehaviour
                 if(table.Read())
                 {
                     Debug.Log("로그인 성공");
+                    LoginInfo.GetComponent<UserInfo>().MEMB_CODE = table[0].ToString();
+                    LoginInfo.GetComponent<UserInfo>().MEMB_NAME = table[1].ToString();
                     StartCoroutine(LoadMyAsyncScene());
                 }
                 else

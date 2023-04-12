@@ -6,19 +6,22 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     PlayerController Controller;
-    //PlayerDB P_Info;
+    public string PlayerName;
+    public int PlayerLevel;
+    public float PlayerExp;
     public int PlayerMaxHP;
     public int PlayerMaxMP;
     public int PlayerCurHP;
     public int PlayerCurMP;
     public int PlayerATK;
     public int PlayerDEF;
+
     // Start is called before the first frame update
     void Start()
     {
         Controller = GetComponent<PlayerController>();
-        //P_Info = GetComponent<PlayerDB>();
-        //new Thread(() => P_Info.GetData()).Start();
+        PlayerCurHP = PlayerMaxHP;
+        PlayerCurMP = PlayerMaxMP;
     }
 
     // Update is called once per frame
@@ -34,7 +37,7 @@ public class Player : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("µ•πÃ¡ˆ ¿‘¿Ω");
+            Debug.Log("Îç∞ÎØ∏ÏßÄ ÏûÖÏùå");
         }
     }
 

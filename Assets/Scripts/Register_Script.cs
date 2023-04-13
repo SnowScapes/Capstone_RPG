@@ -28,7 +28,7 @@ public class Register_Script : MonoBehaviour
     {
         if (Input_ID.text == "" || Input_PW.text == "")
         {
-            Debug.Log("ID ¶Ç´Â PW Ä­Àº ºóÄ­ÀÌ µÉ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ID ë˜ëŠ” PW ì¹¸ì€ ë¹ˆì¹¸ì´ ë  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
         else
         {
@@ -53,7 +53,7 @@ public class Register_Script : MonoBehaviour
                 MySqlDataReader table = cmd.ExecuteReader();
                 if (table.Read())
                 {
-                    Debug.Log("Áßº¹µÈ ID ÀÔ´Ï´Ù.");
+                    Debug.Log("ì¤‘ë³µëœ ID ì…ë‹ˆë‹¤.");
                 }
                 else
                 {
@@ -81,7 +81,7 @@ public class Register_Script : MonoBehaviour
 
                 table.Close();
                 conn.Close();
-                Debug.Log("È¸¿ø°¡ÀÔ ¼º°ø");
+                Debug.Log("íšŒì›ê°€ì… ì„±ê³µ");
                 Login_Popup.SetActive(true);
                 Register_Popup.SetActive(false);
                 }

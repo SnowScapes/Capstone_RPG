@@ -51,7 +51,7 @@ public class LOGIN_Script : MonoBehaviour
     {
         if(Input_ID.text == "" || Input_PW.text == "")
         {
-            Debug.Log("ID ¶Ç´Â PW Ä­Àº ºóÄ­ÀÌ µÉ ¼ö ¾ø½À´Ï´Ù");
+            Debug.Log("ID ë˜ëŠ” PW ì¹¸ì€ ë¹ˆì¹¸ì´ ë  ìˆ˜ ì—†ìŠµë‹ˆë‹¤");
         }
         else
         {
@@ -74,7 +74,7 @@ public class LOGIN_Script : MonoBehaviour
 
                 if(table.Read())
                 {
-                    Debug.Log("·Î±×ÀÎ ¼º°ø");
+                    Debug.Log("ë¡œê·¸ì¸ ì„±ê³µ");
                     LoginInfo.GetComponent<UserInfo>().MEMB_CODE = table[0].ToString();
                     LoginInfo.GetComponent<UserInfo>().MEMB_NAME = table[1].ToString();
                     CHCTReg_Popup.SetActive(true);
@@ -83,7 +83,7 @@ public class LOGIN_Script : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("·Î±×ÀÎ ½ÇÆĞ");
+                    Debug.Log("ë¡œê·¸ì¸ ì‹¤íŒ¨");
                 }
                 table.Close();
                 conn.Close();

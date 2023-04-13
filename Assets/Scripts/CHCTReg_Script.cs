@@ -30,7 +30,11 @@ public class CHCTReg_Script : MonoBehaviour
     public void CheckButtonClick()
     {
         if(NEW_Player(Input_Nick.text, UserInfo.GetComponent<UserInfo>().MEMB_CODE))
+        {
+            Debug.Log("캐릭터 생성 성공!");
             StartCoroutine(LoadMyAsyncScene());
+        }
+            
     }
 
     public static bool NEW_Player(string chct_name, string memb_code)

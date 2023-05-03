@@ -28,7 +28,7 @@ public class LOGIN_Script : MonoBehaviour
     static string MEMB_NAME;
     static string MEMB_P_NO;
 
-    string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "Select_MEMB", "12#4@");
+    string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "select_memb", "12#4@");
 
     void Awake()
     {
@@ -63,7 +63,7 @@ public class LOGIN_Script : MonoBehaviour
 
                 MySqlCommand SelectCommand = new MySqlCommand();
                 SelectCommand.Connection = conn;
-                SelectCommand.CommandText = "select * from memb where memb_id = @memb_id and memb_pw = sha2(@memb_pw, 256) ";
+                SelectCommand.CommandText = "call login_prod(@memb_id, @memb_pw) ";
 
                 MySqlCommand cmd = new MySqlCommand(SelectCommand.CommandText, conn);
                 cmd.Parameters.Add("@memb_id", MySqlDbType.VarChar, 20);
@@ -77,9 +77,30 @@ public class LOGIN_Script : MonoBehaviour
                     Debug.Log("로그인 성공");
                     LoginInfo.GetComponent<UserInfo>().MEMB_CODE = table[0].ToString();
                     LoginInfo.GetComponent<UserInfo>().MEMB_NAME = table[1].ToString();
-                    CHCTReg_Popup.SetActive(true);
-                    Login_Popup.SetActive(false);
-                    //StartCoroutine(LoadMyAsyncScene());
+                    
+                    string connStr2 = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "select_chct", "12#4@");
+                    MySqlConnection conn2 = new MySqlConnection(connStr2);
+                    conn2.Open();
+
+                    MySqlCommand SelectCommand2 = new MySqlCommand();
+                    SelectCommand2.Connection = conn2;
+                    SelectCommand2.CommandText = "call select_memb_chct_prod(@memb_chct_code) ";
+
+                    MySqlCommand cmd2 = new MySqlCommand(SelectCommand2.CommandText, conn2);
+                    cmd2.Parameters.Add("@memb_chct_code", MySqlDbType.VarChar, 8);
+                    cmd2.Parameters[0].Value = table[0].ToString();
+                    
+                    MySqlDataReader table2 = cmd2.ExecuteReader();                   
+                    
+                    if(table2.Read()) {
+                        StartCoroutine(LoadMyAsyncScene());
+                    }
+                    else {
+                        CHCTReg_Popup.SetActive(true);
+                        Login_Popup.SetActive(false);
+                    }   
+                    table2.Close();
+                    conn2.Close();
                 }
                 else
                 {
@@ -105,7 +126,7 @@ public class LOGIN_Script : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        conn.Close();
+
     }
 
     IEnumerator LoadMyAsyncScene()

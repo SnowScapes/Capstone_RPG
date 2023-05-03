@@ -32,8 +32,7 @@ public class Register_Script : MonoBehaviour
         }
         else
         {
-            string connStr = "";
-            connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "Select_MEMB", "12#4@");
+            string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "select_memb", "12#4@");
             MySqlConnection conn = new MySqlConnection(connStr);
 
             try
@@ -44,7 +43,7 @@ public class Register_Script : MonoBehaviour
                 
                 MySqlCommand SelectCommand = new MySqlCommand();
                 SelectCommand.Connection = conn;
-                SelectCommand.CommandText = "select * from memb where memb_id = @memb_id";
+                SelectCommand.CommandText = "call dul_reg_prod(@memb_id) ";
 
                 MySqlCommand cmd = new MySqlCommand(SelectCommand.CommandText, conn);
                 cmd.Parameters.Add("@memb_id", MySqlDbType.VarChar, 20);
@@ -57,7 +56,7 @@ public class Register_Script : MonoBehaviour
                 }
                 else
                 {
-                    connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "Insert_MEMB", "12#4@");            
+                    connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "insert_memb", "12#4@");           
                     using (MySqlConnection myConnection =new MySqlConnection(connStr)) {
 
                         myConnection.Open();
@@ -65,7 +64,7 @@ public class Register_Script : MonoBehaviour
                         MySqlCommand insertCommand = new MySqlCommand();
                         insertCommand.Connection = myConnection;
 
-                        insertCommand.CommandText = "INSERT INTO memb(memb_id, memb_pw, memb_name, memb_p_no) VALUES(@memb_id, @memb_pw, @memb_name, @memb_p_no) ";
+                        insertCommand.CommandText = "call insert_MEMB_PROD(@memb_id, @memb_pw, @memb_name, @memb_p_no) ";
 
                         insertCommand.Parameters.Add("@memb_id", MySqlDbType.VarChar, 20);
                         insertCommand.Parameters["@memb_id"].Value = Input_ID.text;
@@ -79,11 +78,11 @@ public class Register_Script : MonoBehaviour
                         insertCommand.ExecuteNonQuery();
                     }
 
-                table.Close();
-                conn.Close();
-                Debug.Log("회원가입 성공");
-                Login_Popup.SetActive(true);
-                Register_Popup.SetActive(false);
+                    table.Close();
+                    conn.Close();
+                    Debug.Log("회원가입 성공");
+                    Login_Popup.SetActive(true);
+                    Register_Popup.SetActive(false);
                 }
                 table.Close();
                 conn.Close();

@@ -51,7 +51,7 @@ public class PlayerDB : MonoBehaviour
             //ArrayList 사용시 속도 저하로 인해 Array 사용
             //데이터 사용 시 형 변환 필요
             if (table.Read()) {
-                //CHCT_Data[0] = (table[0].ToString()); //CHCT_CODE
+                UserInfo.GetComponent<UserInfo>().CHCT_CODE = (table[0].ToString()); //CHCT_CODE
                 p_info.PlayerName = table[1].ToString(); //CHCT_NAME
                 p_info.PlayerLevel = int.Parse(table[2].ToString()); //CHCT_LV
                 p_info.PlayerExp = float.Parse(table[3].ToString()); //CHCT_EXP

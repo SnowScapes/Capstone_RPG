@@ -1234,6 +1234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MEMB_CODE: 
   MEMB_NAME: 
+  CHCT_CODE: 
 --- !u!4 &388001175
 Transform:
   m_ObjectHideFlags: 0
@@ -1581,6 +1582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Chctname_Popup: {fileID: 580356571}
+  Login_Popup: {fileID: 397545678}
   Input_Nick: {fileID: 968056656}
   Button_Check: {fileID: 1054366809}
   UserInfo: {fileID: 968056655}

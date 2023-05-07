@@ -10,6 +10,7 @@ using MySql.Data.MySqlClient;
 public class CHCTReg_Script : MonoBehaviour
 {
     public GameObject Chctname_Popup;
+    public GameObject Login_Popup;
 
     public TMP_InputField Input_Nick;
     public Button Button_Check;
@@ -32,7 +33,8 @@ public class CHCTReg_Script : MonoBehaviour
         if(NEW_Player(Input_Nick.text, UserInfo.GetComponent<UserInfo>().MEMB_CODE))
         {
             Debug.Log("캐릭터 생성 성공!");
-            StartCoroutine(LoadMyAsyncScene());
+            Login_Popup.SetActive(true);
+            Chctname_Popup.SetActive(false);
         }
             
     }

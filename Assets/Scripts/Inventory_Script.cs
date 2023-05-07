@@ -9,16 +9,44 @@ public class Inventory_Script : MonoBehaviour
 {
     public GameObject UserInfo;
     public Image[] Slot;
+    static string[] itemcode = new string[18];
+    static int[] item_mnt = new int[18];
+
+    void Awake()
+    {
+        UserInfo = GameObject.Find("UserInfo");
+        for (int i=0; i<18; i++)
+        {
+            itemcode[i] = "0000";
+            Slot[i].enabled = false;
+        }
+    }
 
     void Start()
     {
-        
+        SHOW_OWND_item(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
+        LOAD_ITEM_IMGS();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void LOAD_ITEM_IMGS()
+    {
+        for (int i = 0; i < 18; i++)
+        {
+            Debug.Log(itemcode[i]);
+            if (itemcode[i] != "0000")
+            {
+                Slot[i].enabled = true;
+                string PATH = string.Format("Potions/{0}", itemcode[i]);
+                Sprite sprite = Resources.Load<Sprite>(PATH);
+                Slot[i].sprite = sprite;
+            }
+        }
     }
 
     // 아이템 창에서 아이템 보유 상태를 보여주기 위한 코드
@@ -35,7 +63,7 @@ public class Inventory_Script : MonoBehaviour
 
             MySqlCommand SelectCommand = new MySqlCommand();
             SelectCommand.Connection = conn;
-            SelectCommand.CommandText = "call show_ownd_item(@chct_code)";
+            SelectCommand.CommandText = "call show_ownd_item_prod(@chct_code)";
 
             MySqlCommand cmd = new MySqlCommand(SelectCommand.CommandText, conn);
             cmd.Parameters.Add("@chct_code", MySqlDbType.VarChar, 8);
@@ -43,8 +71,11 @@ public class Inventory_Script : MonoBehaviour
 
             MySqlDataReader table = cmd.ExecuteReader();
 
+            int index = 0;
             while (table.Read())
             {
+                itemcode[index] = table[1].ToString();
+                index++;
                 // 단일 행 select가 아님 -> row 단위로 처리가 필요함
                 // 아이템 창을 채우는 함수를 만들어서 chct_code, item_code, chct_item_num 값 파라미터로 받아서 동작하는 걸로 하면 될 듯?
             }

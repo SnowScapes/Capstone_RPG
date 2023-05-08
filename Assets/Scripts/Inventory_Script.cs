@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using MySql.Data.MySqlClient;
 
-public class Inventory_Script : MonoBehaviour
+public class Inventory_Script : MonoBehaviour, IDragHandler
 {
     public GameObject UserInfo;
     public Image[] Slot;
     static string[] itemcode = new string[18];
     static int[] item_mnt = new int[18];
+    GameObject Inven;
+
+    RectTransform trans;
 
     void Awake()
     {
         UserInfo = GameObject.Find("UserInfo");
+        Inven = GameObject.Find("Inventory_Box");
         for (int i=0; i<18; i++)
         {
             itemcode[i] = "0000";
@@ -24,6 +29,7 @@ public class Inventory_Script : MonoBehaviour
 
     void Start()
     {
+        trans = this.GetComponent<RectTransform>();
         SHOW_OWND_item(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
         LOAD_ITEM_IMGS();
     }
@@ -42,7 +48,7 @@ public class Inventory_Script : MonoBehaviour
             if (itemcode[i] != "0000")
             {
                 Slot[i].enabled = true;
-                string PATH = string.Format("Potions/{0}", itemcode[i]);
+                string PATH = string.Format("items/{0}", itemcode[i]);
                 Sprite sprite = Resources.Load<Sprite>(PATH);
                 Slot[i].sprite = sprite;
             }
@@ -127,4 +133,13 @@ public class Inventory_Script : MonoBehaviour
             Debug.Log(e.ToString());
         }
     }
-}
+
+    public void OnDrag(PointerEventData eventData) 
+    { 
+        trans.anchoredPosition = eventData.position; 
+    }
+
+    public void CloseButtonClick() {
+        Inven.SetActive(false);
+    }
+ }

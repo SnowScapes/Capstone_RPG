@@ -62,21 +62,19 @@ public class UIController : MonoBehaviour
 
     void move_inventory()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
+        if (Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log(hit.transform.gameObject);
+                Debug.Log(hit.transform.gameObject.tag);
                 if (hit.collider.CompareTag("Enemy")) // 태그가 "test"인 게임 오브젝트를 클릭했을 때
                 {
                     Debug.Log("터치");
                     //equip_trans.anchoredPosition = Input.mousePosition;
                 }
             }
-            
         }
     }
 }

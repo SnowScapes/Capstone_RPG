@@ -9,6 +9,7 @@ public class EquipInven_Script : MonoBehaviour, IDragHandler
     RectTransform trans;
     GameObject Equip;
     public GameObject player;
+    Player p_stat;
     //1.head 2.body 3.foot 4.bag 5.weapon
     public Image[] Slot;
     static string[] E_itemcode = new string[5];
@@ -25,6 +26,9 @@ public class EquipInven_Script : MonoBehaviour, IDragHandler
     void Start()
     {
         LoadEquipImgs();
+        p_stat = player.GetComponent<Player>();
+        Debug.Log(p_stat.PlayerATK);
+        Equip.SetActive(false);
     }
 
     // Update is called once per frame
@@ -43,8 +47,9 @@ public class EquipInven_Script : MonoBehaviour, IDragHandler
 
     void GetEquipStat() {
         for (int i=0; i<5; i++) {
-            if (Slot[i].enabled)
-                Debug.Log("test");
+            if (Slot[i].enabled) {
+                
+            }
         }
     }
 

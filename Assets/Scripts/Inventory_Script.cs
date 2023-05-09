@@ -32,6 +32,7 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
         trans = this.GetComponent<RectTransform>();
         SHOW_OWND_item(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
         LOAD_ITEM_IMGS();
+        Inven.SetActive(false);
     }
 
     // Update is called once per frame

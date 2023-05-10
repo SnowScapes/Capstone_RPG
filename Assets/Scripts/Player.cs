@@ -16,10 +16,17 @@ public class Player : MonoBehaviour
     public int PlayerATK;
     public int PlayerDEF;
 
+    public int[] head = new int[5];
+    public int[] weapon = new int[5];
+    public int[] top = new int[5];
+    public int[] bottom = new int[5];
+    public int[] shoes = new int[5];
+
     // Start is called before the first frame update
     void Start()
     {
         Controller = GetComponent<PlayerController>();
+        Get_Equip_Stat();
         PlayerCurHP = PlayerMaxHP;
         PlayerCurMP = PlayerMaxMP;
     }
@@ -31,6 +38,7 @@ public class Player : MonoBehaviour
         Controller.attack();
         Controller.sprint();
         Controller.jump();
+        Get_Equip_Stat();
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -39,6 +47,14 @@ public class Player : MonoBehaviour
         {
             Debug.Log("데미지 입음");
         }
+    }
+
+    void Get_Equip_Stat()
+    {
+        PlayerMaxHP = head[1] + weapon[1] + top[1] + bottom[1] + shoes[1];
+        PlayerMaxMP = head[2] + weapon[2] + top[2] + bottom[2] + shoes[2];
+        PlayerATK = head[3] + weapon[3] + top[3] + bottom[3] + shoes[3];
+        PlayerDEF = head[4] + weapon[4] + top[4] + bottom[4] + shoes[4];
     }
 
     void die()

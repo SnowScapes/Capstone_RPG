@@ -41,6 +41,52 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
         
     }
 
+    public static void UPD_OWND_itme(string chct_code, string[] item_code, int[] item_mnt)
+    {
+
+        string DB_ipAddress = "127.0.0.1";
+        string DB_Name = "project";
+        string DB_ID = "update_chct";
+        string DB_PW = "12#4@";
+
+        string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};charset=utf8 ", DB_ipAddress, DB_Name, DB_ID, DB_PW);
+
+        MySqlConnection conn = new MySqlConnection(connStr);
+
+        try
+        {
+            for (int i = 0; i < 18; i++)
+            {
+                if (itemcode[i] != "0000")
+                {
+                    conn.Open();
+                    Debug.Log("Connected to MySQL.");
+
+                    MySqlCommand SelectCommand = new MySqlCommand();
+                    SelectCommand.Connection = conn;
+                    SelectCommand.CommandText = "call update_chct_item_prod(@chct_code, @item_code, @chct_item_num)";
+
+                    MySqlCommand cmd = new MySqlCommand(SelectCommand.CommandText, conn);
+                    cmd.Parameters.Add("@chct_code", MySqlDbType.VarChar, 8);
+                    cmd.Parameters[0].Value = chct_code;
+                    cmd.Parameters.Add("@item_code", MySqlDbType.VarChar, 8);
+                    cmd.Parameters[0].Value = item_code[i];
+                    cmd.Parameters.Add("@chct_item_num", MySqlDbType.Int64, 3);
+                    cmd.Parameters[0].Value = item_mnt[i];
+
+                    MySqlDataReader table = cmd.ExecuteReader();
+
+                    table.Close();
+                    conn.Close();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+    }
+
     void LOAD_ITEM_IMGS()
     {
         for (int i = 0; i < 18; i++)

@@ -1738,8 +1738,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 24.213383, y: -3.354539, z: 0}
-    m_Extent: {x: 45.23581, y: 10.084179, z: 0}
+    m_Center: {x: 24.213398, y: -3.354539, z: 0}
+    m_Extent: {x: 45.235825, y: 10.084179, z: 0}
 --- !u!1 &364182698
 GameObject:
   m_ObjectHideFlags: 0
@@ -3840,7 +3840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1077130065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6453,6 +6453,11 @@ MonoBehaviour:
   PlayerCurMP: 0
   PlayerATK: 0
   PlayerDEF: 0
+  head: 0000000000000000000000000000000000000000
+  weapon: 0000000000000000000000000000000000000000
+  top: 0000000000000000000000000000000000000000
+  bottom: 0000000000000000000000000000000000000000
+  shoes: 0000000000000000000000000000000000000000
 --- !u!114 &1774348725
 MonoBehaviour:
   m_ObjectHideFlags: 0

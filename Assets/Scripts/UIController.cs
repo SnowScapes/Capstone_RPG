@@ -15,6 +15,8 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI NameText;
     public TextMeshProUGUI LevelText;
     public TextMeshProUGUI ExpText;
+    public Slider HPbar;
+    public Slider MPbar;
     int HP;
     int MP;
 
@@ -27,6 +29,7 @@ public class UIController : MonoBehaviour
         NameText.text = player.GetComponent<Player>().PlayerName;
         inven_trans = InvenBox.GetComponent<RectTransform>();
         equip_trans = EquipBox.GetComponent<RectTransform>();
+        
     }
 
     // Update is called once per frame
@@ -40,6 +43,7 @@ public class UIController : MonoBehaviour
         ExpText.text = string.Format("EXP : {0}",player.GetComponent<Player>().PlayerExp.ToString());
         show_inventory();
         move_inventory();
+        Player_Stat();
     }
 
     void show_inventory()
@@ -76,5 +80,13 @@ public class UIController : MonoBehaviour
                 }
             }
         }
+    }
+
+    void Player_Stat()
+    {
+        HPbar.maxValue = player.GetComponent<Player>().PlayerMaxHP;
+        MPbar.maxValue = player.GetComponent<Player>().PlayerMaxMP;
+        HPbar.value = player.GetComponent<Player>().PlayerCurHP;
+        MPbar.value = player.GetComponent<Player>().PlayerCurMP;
     }
 }

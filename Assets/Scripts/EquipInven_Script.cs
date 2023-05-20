@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using MySql.Data.MySqlClient;
+using TMPro;
 
 public class EquipInven_Script : MonoBehaviour, IDragHandler
 {
@@ -15,6 +16,7 @@ public class EquipInven_Script : MonoBehaviour, IDragHandler
     Player p_stat;
     //1.head 2.body 3.foot 4.bag 5.weapon
     public Image[] Slot;
+    public TextMeshProUGUI[] Stats;
     static string[] E_itemcode = new string[5];
 
     void Awake() {
@@ -39,7 +41,7 @@ public class EquipInven_Script : MonoBehaviour, IDragHandler
     // Update is called once per frame
     void Update()
     {
-        GetEquipStat();
+        GetStat();
     }
 
     void get_equip_info(string chct_code)
@@ -139,11 +141,12 @@ public class EquipInven_Script : MonoBehaviour, IDragHandler
         }
     }
 
-    void GetEquipStat() {
-        for (int i=0; i<5; i++) {
-            if (Slot[i].enabled) {
-            }
-        }
+    void GetStat() {
+        Stats[0].text = p_stat.PlayerMaxHP.ToString();
+        Stats[1].text = p_stat.PlayerMaxMP.ToString();
+        Stats[2].text = p_stat.PlayerATK.ToString();
+        Stats[3].text = p_stat.PlayerDEF.ToString();
+        Stats[4].text = p_stat.PlayerExp.ToString();
     }
 
     public void OnDrag(PointerEventData eventData) 

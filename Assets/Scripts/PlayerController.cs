@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public void move()
     {
         float axis = Input.GetAxisRaw("Horizontal");
-        if (axis != 0 && !isJump)
+        if (axis != 0)
         {
             rigid.AddForce(Vector2.right * axis * MoveSpeed, ForceMode2D.Impulse);
             trans.localScale = new Vector2(2 * axis, 2);
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
         if(col.gameObject.CompareTag("Ground"))
         {
             isJump = false;
-            Debug.Log("¹Ù´Ú¿¡ ´êÀ½");
+            Debug.Log("ë°”ë‹¥ì— ë‹¿ìŒ");
         }
     }
 }

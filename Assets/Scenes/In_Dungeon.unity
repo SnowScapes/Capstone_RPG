@@ -343,7 +343,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 78521966}
-  - component: {fileID: 78521965}
   m_Layer: 0
   m_Name: Monster_Floor
   m_TagString: Untagged
@@ -351,32 +350,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &78521965
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 78521964}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 7.833768, y: 0.9351729}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 12.655779, y: 1.0271065}
-  m_EdgeRadius: 0
 --- !u!4 &78521966
 Transform:
   m_ObjectHideFlags: 0
@@ -1869,8 +1842,8 @@ GameObject:
   m_Component:
   - component: {fileID: 312407742}
   - component: {fileID: 312407741}
+  - component: {fileID: 312407748}
   - component: {fileID: 312407747}
-  - component: {fileID: 312407746}
   - component: {fileID: 312407743}
   - component: {fileID: 312407745}
   - component: {fileID: 312407744}
@@ -1941,7 +1914,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312407740}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.37, y: 4.79, z: 0}
+  m_LocalPosition: {x: 21.35, y: 4.69, z: 0}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2014,19 +1987,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 5
---- !u!114 &312407746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312407740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb3540f161160164d8cb9e4037b6897b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Constraints: 4
 --- !u!114 &312407747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2039,7 +2000,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6aa85aaebfc444cb9ae91dbd89adb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrWaypoint: []
+--- !u!114 &312407748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312407740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3540f161160164d8cb9e4037b6897b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mob_name: 
+  mob_lv: 0
+  mob_hp: 0
+  mob_atk: 0
+  mob_def: 0
 --- !u!1 &342674612
 GameObject:
   m_ObjectHideFlags: 0
@@ -11729,9 +11706,9 @@ GameObject:
   - component: {fileID: 2054435169}
   - component: {fileID: 2054435168}
   - component: {fileID: 2054435167}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Forest ground
-  m_TagString: Untagged
+  m_TagString: platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

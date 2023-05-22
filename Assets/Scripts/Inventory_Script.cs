@@ -9,7 +9,9 @@ using MySql.Data.MySqlClient;
 public class Inventory_Script : MonoBehaviour, IDragHandler
 {
     public GameObject UserInfo;
-    public Image[] Slot;
+    public Image[] Equip_Slot;
+    public Image[] Consume_Slot;
+    public Image[] Resource_Slot;
     static string[] itemcode = new string[18];
     static int[] item_mnt = new int[18];
     GameObject Inven;
@@ -23,14 +25,16 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
         for (int i=0; i<18; i++)
         {
             itemcode[i] = "0000";
-            Slot[i].enabled = false;
+            Equip_Slot[i].enabled = false;
+            Consume_Slot[i].enabled = false;
+            Resource_Slot[i].enabled = false;
         }
     }
 
     void Start()
     {
         trans = this.GetComponent<RectTransform>();
-        SHOW_OWND_item(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
+        //SHOW_OWND_item(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
         LOAD_ITEM_IMGS();
         Inven.SetActive(false);
     }
@@ -94,16 +98,16 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
             Debug.Log(itemcode[i]);
             if (itemcode[i] != "0000")
             {
-                Slot[i].enabled = true;
+                //Slot[i].enabled = true;
                 string PATH = string.Format("items/{0}", itemcode[i]);
                 Sprite sprite = Resources.Load<Sprite>(PATH);
-                Slot[i].sprite = sprite;
+                //Slot[i].sprite = sprite;
             }
         }
     }
 
     // 아이템 창에서 아이템 보유 상태를 보여주기 위한 코드
-    public static void SHOW_OWND_item(string chct_code)
+    /*public static void SHOW_OWND_item(string chct_code)
     {
         string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};charset=utf8 ", "127.0.0.1", "project", "select_chct", "12#4@");
 
@@ -140,7 +144,7 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
         {
             Debug.Log(e.ToString());
         }
-    }
+    }*/
 
     // 이미지를 커서 위에 올렸을 떄 아이템 이름과 설명, 보유 수를 보여주기 위한 코드
     public static void GET_CHCT_ITEM_INFO(string chct_code, string item_code)
@@ -177,6 +181,143 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
         }
         catch (Exception e)
         {
+            Debug.Log(e.ToString());
+        }
+    }
+
+    void get_eqit(string chct_code) //장비아이템
+    {
+
+        string DB_ipAddress = "127.0.0.1";
+        string DB_Name = "project";
+        string DB_ID = "select_item";
+        string DB_PW = "12#4@";
+
+        //int i = 0;
+
+        string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};charset=utf8 ", DB_ipAddress, DB_Name, DB_ID, DB_PW);
+
+        MySqlConnection conn = new MySqlConnection(connStr);
+        try
+        {
+            conn.Open();
+            Debug.Log("Connected to MySQL.");
+
+            MySqlCommand SelectCommand = new MySqlCommand();
+            SelectCommand.Connection = conn;
+            SelectCommand.CommandText = "call eqit_item_prod(@chct_code) ";
+
+            MySqlCommand cmd = new MySqlCommand(SelectCommand.CommandText, conn);
+            cmd.Parameters.Add("@chct_code", MySqlDbType.VarChar, 8);
+            cmd.Parameters[0].Value = chct_code;
+
+            MySqlDataReader table = cmd.ExecuteReader();
+
+            while (table.Read())
+            {
+                // table[0] : chct_code, table[1] : item_code, table[2] : item_name, table[3] : item_text, table[4] : chct_item_num
+
+                //eq_itemcode[i] = table[0].ToString();
+                //eq_item_mnt[i] = int.Parse(table[4].ToString()); 
+            }
+
+            table.Close();
+            conn.Close();
+        }
+        catch (Exception e)
+        {
+            conn.Close();
+            Debug.Log(e.ToString());
+        }
+    }
+
+    void get_cnit(string chct_code) //소비아이템
+    {
+        string DB_ipAddress = "127.0.0.1";
+        string DB_Name = "project";
+        string DB_ID = "select_item";
+        string DB_PW = "12#4@";
+
+        //int i = 0;
+
+        string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};charset=utf8 ", DB_ipAddress, DB_Name, DB_ID, DB_PW);
+
+        MySqlConnection conn = new MySqlConnection(connStr);
+        try
+        {
+            conn.Open();
+            Debug.Log("Connected to MySQL.");
+
+            MySqlCommand SelectCommand = new MySqlCommand();
+            SelectCommand.Connection = conn;
+            SelectCommand.CommandText = "call cnit_item_prod(@chct_code) ";
+
+            MySqlCommand cmd = new MySqlCommand(SelectCommand.CommandText, conn);
+            cmd.Parameters.Add("@chct_code", MySqlDbType.VarChar, 8);
+            cmd.Parameters[0].Value = chct_code;
+
+            MySqlDataReader table = cmd.ExecuteReader();
+
+            while (table.Read())
+            {
+                // table[0] : chct_code, table[1] : item_code, table[2] : item_name, table[3] : item_text, table[4] : chct_item_num
+
+                //cn_itemcode[i] = table[0].ToString();
+                //cn_item_mnt[i] = int.Parse(table[4].ToString()); 
+            }
+
+            table.Close();
+            conn.Close();
+        }
+        catch (Exception e)
+        {
+            conn.Close();
+            Debug.Log(e.ToString());
+        }
+    }
+
+    void get_cmit(string chct_code) //재료아이템
+    {
+
+        string DB_ipAddress = "127.0.0.1";
+        string DB_Name = "project";
+        string DB_ID = "select_item";
+        string DB_PW = "12#4@";
+
+        //int i = 0;
+
+        string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};charset=utf8 ", DB_ipAddress, DB_Name, DB_ID, DB_PW);
+
+        MySqlConnection conn = new MySqlConnection(connStr);
+        try
+        {
+            conn.Open();
+            Debug.Log("Connected to MySQL.");
+
+            MySqlCommand SelectCommand = new MySqlCommand();
+            SelectCommand.Connection = conn;
+            SelectCommand.CommandText = "call cmit_item_prod(@chct_code) ";
+
+            MySqlCommand cmd = new MySqlCommand(SelectCommand.CommandText, conn);
+            cmd.Parameters.Add("@chct_code", MySqlDbType.VarChar, 8);
+            cmd.Parameters[0].Value = chct_code;
+
+            MySqlDataReader table = cmd.ExecuteReader();
+
+            while (table.Read())
+            {
+                // table[0] : chct_code, table[1] : item_code, table[2] : item_name, table[3] : item_text, table[4] : chct_item_num
+
+                //cm_itemcode[i] = table[0].ToString();
+                //cm_item_mnt[i] = int.Parse(table[4].ToString()); 
+            }
+
+            table.Close();
+            conn.Close();
+        }
+        catch (Exception e)
+        {
+            conn.Close();
             Debug.Log(e.ToString());
         }
     }

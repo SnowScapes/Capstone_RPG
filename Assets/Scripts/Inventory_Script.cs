@@ -14,6 +14,9 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
     public Image[] Resource_Slot;
     static string[] itemcode = new string[18];
     static int[] item_mnt = new int[18];
+    public GameObject Equip_inven;
+    public GameObject Consume_inven;
+    public GameObject Resource_inven;
     GameObject Inven;
 
     RectTransform trans;
@@ -37,6 +40,7 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
         //SHOW_OWND_item(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
         LOAD_ITEM_IMGS();
         Inven.SetActive(false);
+        EquipButtonClick();
     }
 
     // Update is called once per frame
@@ -329,5 +333,23 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
 
     public void CloseButtonClick() {
         Inven.SetActive(false);
+    }
+
+    public void EquipButtonClick() {
+        Equip_inven.SetActive(true);
+        Consume_inven.SetActive(false);
+        Resource_inven.SetActive(false);
+    }
+
+    public void ConsumeButtonClick() {
+        Equip_inven.SetActive(false);
+        Consume_inven.SetActive(true);
+        Resource_inven.SetActive(false);
+    }
+
+    public void ResourceButtonClick() {
+        Equip_inven.SetActive(false);
+        Consume_inven.SetActive(false);
+        Resource_inven.SetActive(true);
     }
  }

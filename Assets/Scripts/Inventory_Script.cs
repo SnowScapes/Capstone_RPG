@@ -12,7 +12,9 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
     public Image[] Equip_Slot;
     public Image[] Consume_Slot;
     public Image[] Resource_Slot;
-    static string[] itemcode = new string[18];
+    static string[] E_itemcode = new string[18];
+    static string[] C_itemcode = new string[18];
+    static string[] R_itemcode = new string[18];
     static int[] item_mnt = new int[18];
     public GameObject Equip_inven;
     public GameObject Consume_inven;
@@ -27,7 +29,9 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
         Inven = GameObject.Find("Inventory_Box");
         for (int i=0; i<18; i++)
         {
-            itemcode[i] = "0000";
+            E_itemcode[i] = "0000";
+            C_itemcode[i] = "0000";
+            R_itemcode[i] = "0000";
             Equip_Slot[i].enabled = false;
             Consume_Slot[i].enabled = false;
             Resource_Slot[i].enabled = false;
@@ -65,7 +69,7 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
         {
             for (int i = 0; i < 18; i++)
             {
-                if (itemcode[i] != "0000")
+                if (E_itemcode[i] != "0000")
                 {
                     conn.Open();
                     Debug.Log("Connected to MySQL.");
@@ -99,13 +103,26 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
     {
         for (int i = 0; i < 18; i++)
         {
-            Debug.Log(itemcode[i]);
-            if (itemcode[i] != "0000")
+            if (E_itemcode[i] != "0000")
             {
-                //Slot[i].enabled = true;
-                string PATH = string.Format("items/{0}", itemcode[i]);
+                Equip_Slot[i].enabled = true;
+                string PATH = string.Format("Equipments/{0}", E_itemcode[i]);
                 Sprite sprite = Resources.Load<Sprite>(PATH);
-                //Slot[i].sprite = sprite;
+                Equip_Slot[i].sprite = sprite;
+            }
+            if (C_itemcode[i] != "0000") 
+            {
+                Consume_Slot[i].enabled = true;
+                string PATH = string.Format("items/{0}", C_itemcode[i]);
+                Sprite sprite = Resources.Load<Sprite>(PATH);
+                Consume_Slot[i].sprite = sprite;
+            }
+            if (R_itemcode[i] != "0000") 
+            {
+                Resource_Slot[i].enabled = true;
+                string PATH = string.Format("Resources/{0}", R_itemcode[i]);
+                Sprite sprite = Resources.Load<Sprite>(PATH);
+                Resource_Slot[i].sprite = sprite;
             }
         }
     }
@@ -217,8 +234,11 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
 
             MySqlDataReader table = cmd.ExecuteReader();
 
+            int index = 0;
             while (table.Read())
             {
+                E_itemcode[index] = table[1].ToString();
+                index++;
                 // table[0] : chct_code, table[1] : item_code, table[2] : item_name, table[3] : item_text, table[4] : chct_item_num
 
                 //eq_itemcode[i] = table[0].ToString();
@@ -262,8 +282,11 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
 
             MySqlDataReader table = cmd.ExecuteReader();
 
+            int index = 0;
             while (table.Read())
             {
+                C_itemcode[index] = table[1].ToString();
+                index++;
                 // table[0] : chct_code, table[1] : item_code, table[2] : item_name, table[3] : item_text, table[4] : chct_item_num
 
                 //cn_itemcode[i] = table[0].ToString();
@@ -308,8 +331,11 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
 
             MySqlDataReader table = cmd.ExecuteReader();
 
+            int index = 0;
             while (table.Read())
             {
+                R_itemcode[index] = table[1].ToString();
+                index++;
                 // table[0] : chct_code, table[1] : item_code, table[2] : item_name, table[3] : item_text, table[4] : chct_item_num
 
                 //cm_itemcode[i] = table[0].ToString();

@@ -42,9 +42,12 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
     {
         trans = this.GetComponent<RectTransform>();
         //SHOW_OWND_item(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
+        get_cmit(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
+        get_cnit(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
+        get_eqit(UserInfo.GetComponent<UserInfo>().CHCT_CODE);
         LOAD_ITEM_IMGS();
-        Inven.SetActive(false);
         EquipButtonClick();
+        Inven.SetActive(false);
     }
 
     // Update is called once per frame
@@ -109,20 +112,23 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
                 string PATH = string.Format("Equipments/{0}", E_itemcode[i]);
                 Sprite sprite = Resources.Load<Sprite>(PATH);
                 Equip_Slot[i].sprite = sprite;
+                Debug.Log(E_itemcode[i]);
             }
-            if (C_itemcode[i] != "0000") 
+            if (C_itemcode[i] != "0000")
             {
                 Consume_Slot[i].enabled = true;
                 string PATH = string.Format("items/{0}", C_itemcode[i]);
                 Sprite sprite = Resources.Load<Sprite>(PATH);
                 Consume_Slot[i].sprite = sprite;
+                Debug.Log(C_itemcode[i]);
             }
-            if (R_itemcode[i] != "0000") 
+            if (R_itemcode[i] != "0000")
             {
                 Resource_Slot[i].enabled = true;
                 string PATH = string.Format("Resources/{0}", R_itemcode[i]);
                 Sprite sprite = Resources.Load<Sprite>(PATH);
                 Resource_Slot[i].sprite = sprite;
+                Debug.Log(R_itemcode[i]);
             }
         }
     }

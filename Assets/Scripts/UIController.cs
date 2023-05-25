@@ -22,7 +22,11 @@ public class UIController : MonoBehaviour
 
     RectTransform inven_trans;
     RectTransform equip_trans;
-
+    void Awake()
+    {
+        InvenBox.SetActive(true);
+        EquipBox.SetActive(true);
+    }
     // Start is called before the first frame update
     void Start()
     {

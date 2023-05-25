@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float MaxSpeed;
     bool isRun;
     bool isJump;
+    bool isSprint;
     // Start is called before the first frame update
     void Start()
     {
@@ -62,11 +63,11 @@ public class PlayerController : MonoBehaviour
             isRun = false;
             P_animation.SetBool("isRunning", false);
         }
-        if (rigid.velocity.x > MaxSpeed)
+        if (rigid.velocity.x > MaxSpeed && !isSprint)
         {
             rigid.velocity = new Vector2(MaxSpeed, rigid.velocity.y);
         }
-        else if (rigid.velocity.x < MaxSpeed * (-1))
+        else if (rigid.velocity.x < MaxSpeed * (-1) && !isSprint)
         {
             rigid.velocity = new Vector2(MaxSpeed * (-1), rigid.velocity.y);
         }
@@ -76,9 +77,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && isRun && !isJump)
         {
+            isSprint = true;
             P_animation.SetTrigger("Sprinting");
             rigid.AddForce(Vector2.right * (MoveSpeed) * Input.GetAxisRaw("Horizontal"), ForceMode2D.Impulse);
             Debug.Log("Sprint!");
+            isSprint = false;
         }
     }
 

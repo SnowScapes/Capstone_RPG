@@ -15,7 +15,9 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
     static string[] E_itemcode = new string[18];
     static string[] C_itemcode = new string[18];
     static string[] R_itemcode = new string[18];
-    static int[] item_mnt = new int[18];
+    static int[] E_item_mnt = new int[18];
+    static int[] C_item_mnt = new int[18];
+    static int[] R_item_mnt = new int[18];
     public GameObject Equip_inven;
     public GameObject Consume_inven;
     public GameObject Resource_inven;
@@ -32,6 +34,9 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
             E_itemcode[i] = "0000";
             C_itemcode[i] = "0000";
             R_itemcode[i] = "0000";
+            E_item_mnt[i] = 0;
+            C_item_mnt[i] = 0;
+            R_item_mnt[i] = 0;
             Equip_Slot[i].enabled = false;
             Consume_Slot[i].enabled = false;
             Resource_Slot[i].enabled = false;
@@ -53,7 +58,7 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
     // Update is called once per frame
     void Update()
     {
-        
+        Check_mnt();
     }
 
     public static void UPD_OWND_itme(string chct_code, string[] item_code, int[] item_mnt)
@@ -244,6 +249,7 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
             while (table.Read())
             {
                 E_itemcode[index] = table[1].ToString();
+                E_item_mnt[index] = int.Parse(table[4].ToString());
                 index++;
                 // table[0] : chct_code, table[1] : item_code, table[2] : item_name, table[3] : item_text, table[4] : chct_item_num
 
@@ -292,6 +298,7 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
             while (table.Read())
             {
                 C_itemcode[index] = table[1].ToString();
+                C_item_mnt[index] = int.Parse(table[4].ToString());
                 index++;
                 // table[0] : chct_code, table[1] : item_code, table[2] : item_name, table[3] : item_text, table[4] : chct_item_num
 
@@ -341,6 +348,7 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
             while (table.Read())
             {
                 R_itemcode[index] = table[1].ToString();
+                R_item_mnt[index] = int.Parse(table[4].ToString());
                 index++;
                 // table[0] : chct_code, table[1] : item_code, table[2] : item_name, table[3] : item_text, table[4] : chct_item_num
 
@@ -355,6 +363,19 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
         {
             conn.Close();
             Debug.Log(e.ToString());
+        }
+    }
+
+    void Check_mnt()
+    {
+        for (int i=0; i<18; i++)
+        {
+            if (E_item_mnt[i] == 0)
+                E_itemcode[i] = "0000";
+            if (C_item_mnt[i] == 0)
+                C_itemcode[i] = "0000";
+            if (R_item_mnt[i] == 0)
+                R_itemcode[i] = "0000";
         }
     }
 

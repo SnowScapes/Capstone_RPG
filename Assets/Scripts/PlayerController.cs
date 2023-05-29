@@ -7,9 +7,13 @@ public class PlayerController : MonoBehaviour
     public Animator P_animation;
     Rigidbody2D rigid;
     Transform trans;
+    CircleCollider2D ATK_RNG;
+    BoxCollider2D Jumpcol;
+    CapsuleCollider2D col;
     public float jumpForce;
     public float MoveSpeed;
     public float MaxSpeed;
+    
     bool isRun;
     bool isJump;
     bool isSprint;
@@ -19,6 +23,10 @@ public class PlayerController : MonoBehaviour
         P_animation = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody2D>();
         trans = GetComponent<Transform>();
+        ATK_RNG = GetComponent<CircleCollider2D>();
+        col = GetComponent<CapsuleCollider2D>();
+        Jumpcol = GetComponent<BoxCollider2D>();
+        ATK_RNG.enabled = false;
     }
 
     // Update is called once per frame
@@ -31,7 +39,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            ATK_RNG.enabled = true;
             P_animation.SetTrigger("Attacking");
+            ATK_RNG.enabled = false;
         }
     }
 
@@ -92,5 +102,16 @@ public class PlayerController : MonoBehaviour
             isJump = false;
             Debug.Log("바닥에 닿음");
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        col.isTrigger = true;
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        Jumpcol.isTrigger = true;
+        col.isTrigger = false;
     }
 }

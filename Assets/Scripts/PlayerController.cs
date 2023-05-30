@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow) && !isJump)
         {
-            P_animation.SetTrigger("Jumping");
+            P_animation.SetBool("Jumping", true);
             rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isJump = true;
         }
@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
     {
         if(col.gameObject.CompareTag("Ground"))
         {
+            P_animation.SetBool("Jumping",false);
             isJump = false;
             Debug.Log("바닥에 닿음");
         }

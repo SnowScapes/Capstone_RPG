@@ -10,6 +10,7 @@ public class UIController : MonoBehaviour
     public GameObject player;
     public GameObject InvenBox;
     public GameObject EquipBox;
+    public GameObject CraftBox;
     public TextMeshProUGUI HPtext;
     public TextMeshProUGUI MPtext;
     public TextMeshProUGUI NameText;
@@ -65,6 +66,13 @@ public class UIController : MonoBehaviour
                 EquipBox.SetActive(false);
             else
                 EquipBox.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (CraftBox.activeSelf)
+                CraftBox.SetActive(false);
+            else
+                CraftBox.SetActive(true);
         }
     }
 

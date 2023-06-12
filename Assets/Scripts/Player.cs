@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
         Controller.attack();
         Controller.sprint();
         Controller.jump();
+        //Controller.DoubleJump();
+        die();
         Get_Equip_Stat();
     }
 
@@ -62,6 +64,7 @@ public class Player : MonoBehaviour
         if (PlayerCurHP <= 0)
         {
             Controller.P_animation.SetTrigger("die");
+            //this.gameObject.SetActive(false);
         }
     }
 }

@@ -7,8 +7,8 @@ public class EnemySpawnCtrl : MonoBehaviour
     public string[] mob_code;
     public GameObject[] SpawnPoint;
     public List<GameObject> EnemyPool = new List<GameObject>();
+    public GameObject[] Enemies;
     public bool[] Spawned;
-    public GameObject EnemyPrefabs;
 
     private float createTime = 2.0f;
     private Player playerCs;
@@ -25,7 +25,7 @@ public class EnemySpawnCtrl : MonoBehaviour
 
         for (int i = 0; i < SpawnPoint.Length; i++)
         {
-            GameObject Enemy = (GameObject)Instantiate(EnemyPrefabs);
+            GameObject Enemy = (GameObject)Instantiate(Enemies[Random.Range(0,7)]);
             Enemy.name = "Enemy_" + i.ToString();
             Enemy.SetActive(false);
             EnemyPool.Add(Enemy);

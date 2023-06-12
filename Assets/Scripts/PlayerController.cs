@@ -16,7 +16,10 @@ public class PlayerController : MonoBehaviour
     
     bool isRun;
     bool isJump;
+    bool DJump_able;
     bool isSprint;
+    int jumpcount = 2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,11 +50,15 @@ public class PlayerController : MonoBehaviour
 
     public void jump()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && !isJump)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !isJump && jumpcount > 0)
         {
             P_animation.SetBool("Jumping", true);
+            if (jumpcount == 1)
+                P_animation.SetTrigger("DoubleJumping");
             rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            isJump = true;
+            jumpcount--;
+            if (jumpcount == 0)
+                isJump = true;
         }
     }
 
@@ -95,12 +102,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Obtain()
+    {
+
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
         if(col.gameObject.CompareTag("Ground"))
         {
             P_animation.SetBool("Jumping",false);
             isJump = false;
+            jumpcount = 2;
+            DJump_able = false;
             Debug.Log("바닥에 닿음");
         }
     }
@@ -112,7 +126,6 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        Jumpcol.isTrigger = true;
         col.isTrigger = false;
     }
 }

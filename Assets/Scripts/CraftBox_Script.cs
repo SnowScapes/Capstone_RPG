@@ -13,8 +13,12 @@ public class CraftBox_Script : MonoBehaviour
 
     public Button Accept_Btn;
 
+    string PATH = "Resources/";
+
     void Start()
     {
+        Craft_Slot1.enabled = false;
+        Craft_Slot2.enabled = false;
         Equip_List.SetActive(false);
         Consume_List.SetActive(false);
         this.gameObject.SetActive(false);
@@ -34,22 +38,22 @@ public class CraftBox_Script : MonoBehaviour
 
     public void HP_Craft()
     {
-
+        Get_CraftResources("CMIT0001","");
     }
 
     public void MP_Craft()
     {
-
+        Get_CraftResources("CMIT0001","");
     }
 
     public void Weapon_Craft()
     {
-
+        
     }
 
     public void Head_Craft()
     {
-
+        
     }
 
     public void Top_Craft()
@@ -80,5 +84,14 @@ public class CraftBox_Script : MonoBehaviour
     void Check_Inventory()
     {
 
+    }
+
+    void Get_CraftResources(string Res1, string Res2) {
+        Craft_Slot1.enabled = true;
+        Craft_Slot2.enabled = true;
+        Sprite sprite = Resources.Load<Sprite>(PATH+Res1);
+        Craft_Slot1.sprite = sprite;
+        sprite = Resources.Load<Sprite>(PATH+Res2);
+        Craft_Slot2.sprite = sprite;
     }
  }

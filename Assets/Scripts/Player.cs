@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
     {
         if (PlayerCurHP <= 0)
         {
-            Controller.P_animation.SetTrigger("die");
+            //Controller.P_animation.SetTrigger("die");
             //this.gameObject.SetActive(false);
         }
     }

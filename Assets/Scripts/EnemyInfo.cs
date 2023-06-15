@@ -9,22 +9,22 @@ public class EnemyInfo : MonoBehaviour
     public string mob_name;
     public int mob_lv;
     public int mob_hp;
+    public int mob_curhp;
     public int mob_atk;
     public int mob_def;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        GET_MONS(GameObject.Find("MapCode").GetComponent<MapCode>().Map_code, this.GetComponent<EnemyCode>().Code);
+        mob_curhp = mob_hp;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        die();
     }
 
-    void GET_MONS(string map_code)
+    void GET_MONS(string map_code, string mons_code)
     {
         string DB_ipAddress = "127.0.0.1";
         string DB_Name = "project";
@@ -40,24 +40,23 @@ public class EnemyInfo : MonoBehaviour
 
             MySqlCommand UpdateCommand = new MySqlCommand();
             UpdateCommand.Connection = conn;
-            UpdateCommand.CommandText = "call map_mons_prod(@map_code) ";
+            UpdateCommand.CommandText = "call map_mons_prod(@map_code, @mons_code) ";
 
             MySqlCommand cmd = new MySqlCommand(UpdateCommand.CommandText, conn);
             cmd.Parameters.Add("@map_code", MySqlDbType.VarChar, 8);
             cmd.Parameters[0].Value = map_code; // p_info.현재 위치 값이 parameter로 사용될 예정
+            cmd.Parameters.Add("@mons_code", MySqlDbType.VarChar, 8);
+            cmd.Parameters[1].Value = mons_code;
 
             MySqlDataReader table = cmd.ExecuteReader();
 
-            while (table.Read())
+            if (table.Read())
             {
-                // 단일 행 X -> 행단위 처리 필요
-
-                // 추가 필요사항
-                // mons_code와 몬스터에 대한 연결 필요(현재 캐릭터와 db 값 간의 상호연결이 되어 있지 않음)
-
-                // 생성 방식
-                // 1. x좌표에 대한 random 형식으로 몬스터 생성 함수 호출
-                // 2. 일정 좌표를 기준으로 간격을 둔 상태로 몬스터 생성 함수 호출
+                mob_name = table[2].ToString();
+                mob_lv = int.Parse(table[3].ToString());
+                mob_hp = int.Parse(table[4].ToString());
+                mob_atk = int.Parse(table[5].ToString());
+                mob_def = int.Parse(table[6].ToString());
             }
 
             table.Close();
@@ -66,6 +65,16 @@ public class EnemyInfo : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+        }
+
+        Debug.Log("Enemy Info Loaded");
+    }
+
+    void die()
+    {
+        if (mob_curhp <= 0)
+        {
+            Destroy(this.gameObject);
         }
     }
 }

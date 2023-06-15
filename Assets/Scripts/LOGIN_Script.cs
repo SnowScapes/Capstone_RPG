@@ -28,6 +28,8 @@ public class LOGIN_Script : MonoBehaviour
     static string MEMB_NAME;
     static string MEMB_P_NO;
 
+    public Image image;
+
     string connStr = string.Format("Server={0};Port=3308;Database={1};Uid={2};Pwd={3};", "127.0.0.1", "project", "select_memb", "12#4@");
 
     void Awake()
@@ -93,6 +95,7 @@ public class LOGIN_Script : MonoBehaviour
                     MySqlDataReader table2 = cmd2.ExecuteReader();                   
                     
                     if(table2.Read()) {
+                        StartCoroutine("MainSplash");
                         StartCoroutine(LoadMyAsyncScene());
                     }
                     else {
@@ -137,5 +140,18 @@ public class LOGIN_Script : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    IEnumerator MainSplash()
+    {
+        Color color = image.color;
+
+        for (int i = 100; i >= 0; i--)
+        {
+            color.a -= Time.deltaTime * 0.005f;
+
+            image.color = color;
+        }
+        yield return null;
     }
 }

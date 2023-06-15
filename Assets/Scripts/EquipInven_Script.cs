@@ -150,8 +150,8 @@ public class EquipInven_Script : MonoBehaviour, IDragHandler
     }
 
     public void OnDrag(PointerEventData eventData) 
-    { 
-        trans.anchoredPosition = eventData.position; 
+    {
+        trans.anchoredPosition = new Vector2(eventData.position.x, eventData.position.y - 170);
     }
 
     public void CloseButtonClick() {

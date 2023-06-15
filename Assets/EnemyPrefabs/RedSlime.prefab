@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3791886999995501011}
   - component: {fileID: 3791886999995501010}
   - component: {fileID: 3791886999995501013}
+  - component: {fileID: 6351431003756946136}
   m_Layer: 0
   m_Name: RedSlime
   m_TagString: Enemy
@@ -185,3 +186,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6, y: 3.4}
   m_EdgeRadius: 0
+--- !u!114 &6351431003756946136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3791886999995501012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d8523c2ef1149f49be8a818ebd06a68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Code: CMMN0001

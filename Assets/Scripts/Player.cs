@@ -6,6 +6,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     PlayerController Controller;
+    UIController uicon;
+    public Animator P_animation;
     public string PlayerName;
     public int PlayerLevel;
     public float PlayerExp;
@@ -25,6 +27,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        uicon = GameObject.Find("UI").GetComponent<UIController>();
+        P_animation = GetComponent<Animator>();
         Controller = GetComponent<PlayerController>();
         Get_Equip_Stat();
         PlayerCurHP = PlayerMaxHP;
@@ -38,7 +42,7 @@ public class Player : MonoBehaviour
         Controller.attack();
         Controller.sprint();
         Controller.jump();
-        //Controller.DoubleJump();
+        Controller.rage();
         die();
         Get_Equip_Stat();
     }
@@ -47,7 +51,9 @@ public class Player : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("데미지 입음");
+            P_animation.SetTrigger("damaged");
+            PlayerCurHP -= (col.gameObject.GetComponent<EnemyInfo>().mob_atk-PlayerDEF/10);
+            GameObject.Find("UI").GetComponent<UIController>().Ragebar.fillAmount += (float)0.05;
         }
     }
 
@@ -63,8 +69,8 @@ public class Player : MonoBehaviour
     {
         if (PlayerCurHP <= 0)
         {
-            //Controller.P_animation.SetTrigger("die");
-            //this.gameObject.SetActive(false);
+            Controller.P_animation.SetTrigger("die");
+            uicon.StartCoroutine("MainSplash");
         }
     }
 }

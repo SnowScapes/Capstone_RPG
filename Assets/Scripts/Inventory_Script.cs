@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using MySql.Data.MySqlClient;
+using TMPro;
 
 public class Inventory_Script : MonoBehaviour, IDragHandler
 {
@@ -12,9 +13,11 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
     public Image[] Equip_Slot;
     public Image[] Consume_Slot;
     public Image[] Resource_Slot;
-    static string[] E_itemcode = new string[18];
-    static string[] C_itemcode = new string[18];
-    static string[] R_itemcode = new string[18];
+    public TextMeshProUGUI[] C_mnt_text;
+    public TextMeshProUGUI[] R_mnt_text;
+    public static string[] E_itemcode = new string[18];
+    public static string[] C_itemcode = new string[18];
+    public static string[] R_itemcode = new string[18];
     static int[] E_item_mnt = new int[18];
     static int[] C_item_mnt = new int[18];
     static int[] R_item_mnt = new int[18];
@@ -119,21 +122,39 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
                 Equip_Slot[i].sprite = sprite;
                 Debug.Log(E_itemcode[i]);
             }
+            else
+            {
+                Equip_Slot[i].enabled = false;
+            }
+
             if (C_itemcode[i] != "0000")
             {
                 Consume_Slot[i].enabled = true;
                 string PATH = string.Format("items/{0}", C_itemcode[i]);
                 Sprite sprite = Resources.Load<Sprite>(PATH);
                 Consume_Slot[i].sprite = sprite;
+                C_mnt_text[i].text = C_item_mnt[i].ToString();
                 Debug.Log(C_itemcode[i]);
             }
+            else
+            {
+                Consume_Slot[i].enabled = false;
+                C_mnt_text[i].text = "";
+            }
+
             if (R_itemcode[i] != "0000")
             {
                 Resource_Slot[i].enabled = true;
                 string PATH = string.Format("Resources/{0}", R_itemcode[i]);
                 Sprite sprite = Resources.Load<Sprite>(PATH);
                 Resource_Slot[i].sprite = sprite;
+                R_mnt_text[i].text = R_item_mnt[i].ToString();
                 Debug.Log(R_itemcode[i]);
+            }
+            else
+            {
+                Resource_Slot[i].enabled = false;
+                R_mnt_text[i].text = "";
             }
         }
     }
@@ -377,11 +398,66 @@ public class Inventory_Script : MonoBehaviour, IDragHandler
             if (R_item_mnt[i] == 0)
                 R_itemcode[i] = "0000";
         }
+        LOAD_ITEM_IMGS();
+    }
+
+    public string Get_Itemcode(int index)
+    {
+        return R_itemcode[index];
+    }
+
+    public void input_e_item(string itemcode)
+    {
+        int pindex = 0;
+        for (int i = 0; i < 18; i++)
+        {
+            if (E_itemcode[i] == "0000")
+            {
+                pindex = i;
+                break;
+            }
+        }
+        E_itemcode[pindex] = itemcode;
+        E_item_mnt[pindex]++;
+    }
+
+    public void input_c_item(string itemcode)
+    {
+        bool exist = false;
+        int pindex = 0;
+        for (int i = 0; i < 18; i++)
+        {
+            if (C_itemcode[i] == itemcode)
+            {
+                pindex = i;
+                exist = true;
+                break;
+            }
+        }
+        if (!exist)
+        {
+            for (int i = 0; i < 18; i++)
+            {
+                if (C_itemcode[i] == "0000")
+                {
+                    pindex = i;
+                    break;
+                }
+            }
+        }
+        C_itemcode[pindex] = itemcode;
+        C_item_mnt[pindex]++;
+    }
+
+    public void input_r_item(int index1, int index2)
+    {
+        R_item_mnt[index1]--;
+        R_item_mnt[index2]--;
     }
 
     public void OnDrag(PointerEventData eventData) 
     { 
-        trans.anchoredPosition = eventData.position; 
+        trans.anchoredPosition = new Vector2(eventData.position.x, eventData.position.y-170); 
     }
 
     public void CloseButtonClick() {

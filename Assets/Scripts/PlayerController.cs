@@ -5,11 +5,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator P_animation;
+    public Transform Atk_pos;
+    public Vector2 BoxSize;
     Rigidbody2D rigid;
+    Player player;
     Transform trans;
-    CircleCollider2D ATK_RNG;
     BoxCollider2D Jumpcol;
     CapsuleCollider2D col;
+    AudioSource footstep;
     public float jumpForce;
     public float MoveSpeed;
     public float MaxSpeed;
@@ -18,18 +21,20 @@ public class PlayerController : MonoBehaviour
     bool isJump;
     bool DJump_able;
     bool isSprint;
+    bool ragemode = false;
+    public bool attacked = false;
     int jumpcount = 2;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = this.GetComponent<Player>();
         P_animation = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody2D>();
         trans = GetComponent<Transform>();
-        ATK_RNG = GetComponent<CircleCollider2D>();
         col = GetComponent<CapsuleCollider2D>();
         Jumpcol = GetComponent<BoxCollider2D>();
-        ATK_RNG.enabled = false;
+        footstep = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -38,13 +43,45 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void rage()
+    {
+        if (Input.GetKeyDown(KeyCode.X) && GameObject.Find("UI").GetComponent<UIController>().Ragebar.fillAmount == 1)
+        {
+            ragemode = true;
+            GameObject.Find("UI").GetComponent<UIController>().Ragebar.fillAmount = 0;
+        }
+    }
+
     public void attack()
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            ATK_RNG.enabled = true;
-            P_animation.SetTrigger("Attacking");
-            ATK_RNG.enabled = false;
+            Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(Atk_pos.position, BoxSize, 0);
+
+            if (ragemode)
+            {
+                P_animation.SetTrigger("Combo");
+                foreach (Collider2D collider in collider2Ds)
+                {
+                    if (collider.tag == "Enemy")
+                    {
+                        collider.GetComponent<EnemyInfo>().mob_curhp -= player.PlayerATK;
+                        Debug.Log(collider.GetComponent<EnemyInfo>().mob_curhp);
+                    }
+                }
+            }
+            else
+            {
+                P_animation.SetTrigger("Attacking");
+                foreach (Collider2D collider in collider2Ds)
+                {
+                    if (collider.tag == "Enemy")
+                    {
+                        collider.GetComponent<EnemyInfo>().mob_curhp -= (player.PlayerATK - collider.GetComponent<EnemyInfo>().mob_def / 10);
+                        Debug.Log(collider.GetComponent<EnemyInfo>().mob_curhp);
+                    }
+                }
+            }
         }
     }
 
@@ -88,6 +125,13 @@ public class PlayerController : MonoBehaviour
         {
             rigid.velocity = new Vector2(MaxSpeed * (-1), rigid.velocity.y);
         }
+        if (rigid.velocity.x != 0 && jumpcount == 2)
+        {
+            if (!footstep.isPlaying)
+                footstep.Play();
+        }
+        else
+            footstep.Stop();
     }
 
     public void sprint()
@@ -104,7 +148,10 @@ public class PlayerController : MonoBehaviour
 
     public void Obtain()
     {
+        if(Input.GetKeyDown(KeyCode.DownArrow))
+        {
 
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -119,7 +166,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(Atk_pos.position, BoxSize);
+    }
+
+    /*void OnTriggerEnter2D(Collider2D collision)
     {
         col.isTrigger = true;
     }
@@ -127,5 +180,5 @@ public class PlayerController : MonoBehaviour
     void OnTriggerExit2D(Collider2D collision)
     {
         col.isTrigger = false;
-    }
+    }*/
 }

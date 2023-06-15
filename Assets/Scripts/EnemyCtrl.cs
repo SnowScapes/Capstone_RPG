@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class EnemyCtrl : MonoBehaviour
 {
+    PlayerController pctrl;
+    Player player_stat;
+    GameObject player;
+    EnemyInfo Stat;
+
     Rigidbody2D rigid;
     Animator anim;
     SpriteRenderer spriteRenderer;
@@ -15,6 +20,10 @@ public class EnemyCtrl : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        player = GameObject.Find("Player");
+        pctrl = player.GetComponent<PlayerController>();
+        Stat = this.GetComponent<EnemyInfo>();
+        player_stat = player.GetComponent<Player>();
 
         Invoke("randomVelocity", Random.Range(2, 4));
     }

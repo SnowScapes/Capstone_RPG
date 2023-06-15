@@ -6,6 +6,7 @@ public class EnemySpawnCtrl : MonoBehaviour
 {
     public string[] mob_code;
     public GameObject[] SpawnPoint;
+    public GameObject[] Spawned_enemies;
     public List<GameObject> EnemyPool = new List<GameObject>();
     public GameObject[] Enemies;
     public bool[] Spawned;
@@ -29,9 +30,15 @@ public class EnemySpawnCtrl : MonoBehaviour
             Enemy.name = "Enemy_" + i.ToString();
             Enemy.SetActive(false);
             EnemyPool.Add(Enemy);
+            Spawned_enemies[i] = Enemy;
         }
 
         StartCoroutine(this.CreateEnemy());
+    }
+
+    void check_spawn()
+    {
+
     }
 
     IEnumerator CreateEnemy()
